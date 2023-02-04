@@ -1,8 +1,8 @@
-﻿                   GFK: Genomon-fusion for K computer                   
+#                   GFK: Genomon-fusion for K computer                   
 
 Copyright (c) 2015 Satoshi ITO, Yuichi SHIRAISHI, Kenichi CHIBA 
 
-1. General
+## 1. General
 
 GFK is a parallelized version of Genomon-fusion. Genomon-fusion is a pip
 eline software that performs alignment of FASTQ files of whole transcrip
@@ -18,8 +18,8 @@ ormation, see below:
 contact address: Satoshi ITO (sito@hgc.jp)
 
 
-2. How to run
-2.1 Prerequisite
+## 2. How to run
+### 2.1 Prerequisite
 
   Parallel computer and the following software can be installed.
 
@@ -36,42 +36,42 @@ contact address: Satoshi ITO (sito@hgc.jp)
   datasets by Makefile.
 
 
-2.2 Prepare blat
+### 2.2 Prepare blat
 
-  First, prepare blat and FaToTwoBit (blat utility). Then, copy them in
-  to bin directory of this package.
+  First, prepare blat and FaToTwoBit (blat utility). Then, copy them into
+  bin directory of this package.
 
 
-2.3 Prepare Makefile.in 
+### 2.3 Prepare Makefile.in 
 
   Sample Makefile.in for K-computer and Linux is located under etc/.
   So, copy appropriate sample to the top directory where this README is
   located, open with an editor, and set GFKDIR to the top directory.
 
 
-2.4 Download tools and reference data
+### 2.4 Download tools and reference data
 
   Type "make download". This will download archives of external tools
   and reference data.
 
 
-2.5 Compile tools and GFK binaries
+### 2.5 Compile tools and GFK binaries
 
   Type "make tool" to prepare external tools, and type "make src" to
   prepare GFK binaries under ./bin.
 
 
-2.6 Prepare reference files
+### 2.6 Prepare reference files
 
   Type "make ref" to prepare reference files under ./bin.
 
   If you are using K-computer, this step takes more than 14 hours, so it
   is recommended to run as a background job as follows:
-
+```
   $ make ref > make-ref.log 2>&1 &
+```
 
-
-2.7 Prepare for test
+### 2.7 Prepare for test
 
   Change directory to test.
   Then, type "make", and an archive of executables and scripts for submi
@@ -80,50 +80,50 @@ contact address: Satoshi ITO (sito@hgc.jp)
   tory.
 
 
-2.8 Submit jobs
+### 2.8 Submit jobs
 
   Run GFKpre.sh
-
+```
   $ cd Input
   $ ../../bin/GFKpre.sh ../input.txt
   $ ../../bin/GFKpre.sh -f ../input.txt
   $ cd ..
-
+```
 
   Run GFKalign (Submit GFKalign.sh on K-computer)
-
+```
   $ mpirun -np 624 ../bin/GFKalign Output
-
+```
   or
-
+```
   $ pjsub GFKalign.sh  (on K computer)
-
+```
 
   Run GFKpost.sh
-
+```
   $ cd Output
   $ ../../bin/GFKpost.sh ../Input/GFKPostProcess.txt
   $ cd ..
-
+```
 
   Run GFKdedup (Submit GFKdedup.sh on K-computer)
-
+```
   $ mpirun -np 1 ../bin/GFKdedup Output
-
+```
   or
-
+```
   $ pjsub GFKdedup.sh  (on K computer)
-
+```
 
   Run GFKdetect (Submit GFKdetect.sh on K-computer)
-
+```
   $ mpirun -np 44 ../bin/GFKdetect Output
-
+```
   or
-
+```
   $ pjsub GFKdetect.sh  (on K computer)
+```
 
-
-2.9 Result
+### 2.9 Result
 
   fusion.0.txt is the final result. Reference output is fusion.0.ref.
